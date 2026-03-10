@@ -136,46 +136,10 @@
   </div>
 </section>
 
-<!-- Abstract -->
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            Medical image visualization requires volumetric rendering algorithms that preserve anatomical fidelity while maintaining high rendering speeds. To address the high computational cost of large volumetric datasets, we propose a Gaussian-based volumetric representation for efficient visualization of dense medical volumes without compromising structural and radiometric details.
-          </p>
-          <p>
-            The proposed representation is optimized using Monte Carlo volumetric estimation, which enables training on a highly sparse subset of voxels while maintaining consistency with the dense volumetric objective. In addition, we introduce a curriculum learning strategy that progressively incorporates structured slice-based sampling during training. Sparse voxel samples provide an early global coverage of the volume, while slice samples capture spatially correlated regions that aid geometric structure and texture continuity. This combination enables the Gaussian representation to learn anatomical details of various structures and corresponding textures from sparse supervision while significantly reducing the computational cost associated with dense voxel processing. The learned representation supports slice-based rendering methods such as shear–warp volume rendering, enabling efficient visualization of multimodal medical datasets including MRI and Cryosection volumes while preserving anatomical structures. Using sparse supervision, our method achieves up to 43.86 FPS rendering with a compression ratio of 11.31:1.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Architecture diagram -->
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-full-width has-text-centered">
-        <h2 class="title is-4">Architecture</h2>
-        <figure class="image">
-          <img src="./static/SW_GaussFinal.drawio.png" alt="Architecture diagram" class="architecture-diagram" style="height: auto;" />
-        </figure>
-        <p class="is-size-7 mt-2">
-          <a href="./static/SW_GaussFinal.drawio.pdf" target="_blank" rel="noopener">View full architecture diagram (PDF)</a>
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- Gaussian Prediction videos -->
 <section class="section">
   <div class="container is-fluid">
-    <h2 class="title is-4 has-text-centered">Gaussian Representation for Shear–Warp Visualization</h2>
+    <h2 class="title is-4 has-text-centered">Shear–warp rendering using Gaussian representation</h2>
     <div class="columns">
       <div class="column has-text-centered">
         <p class="is-size-6 has-text-weight-medium mb-2">Full Head</p>
@@ -206,6 +170,42 @@
         <video controls muted loop playsinline style="width: 100%; border-radius: 8px;">
           <source src="./static/videos/Gauss_Pred/Lungs.mp4" type="video/mp4">
         </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Architecture diagram -->
+<section class="section pt-3">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width has-text-centered">
+        <h2 class="title is-4 mb-2">Architecture</h2>
+        <figure class="image" style="margin-top: -10px;">
+          <img src="./static/SW_GaussFinal.drawio.png" alt="Architecture diagram" class="architecture-diagram" style="height: auto;" />
+        </figure>
+        <p class="is-size-7 mt-2">
+          <a href="./static/SW_GaussFinal.drawio.pdf" target="_blank" rel="noopener">View full architecture diagram (PDF)</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Abstract -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Medical image visualization requires volumetric rendering algorithms that preserve anatomical fidelity while maintaining high rendering speeds. To address the high computational cost of large volumetric datasets, we propose a Gaussian-based volumetric representation for efficient visualization of dense medical volumes without compromising structural and radiometric details.
+          </p>
+          <p>
+            The proposed representation is optimized using Monte Carlo volumetric estimation, which enables training on a highly sparse subset of voxels while maintaining consistency with the dense volumetric objective. In addition, we introduce a curriculum learning strategy that progressively incorporates structured slice-based sampling during training. Sparse voxel samples provide an early global coverage of the volume, while slice samples capture spatially correlated regions that aid geometric structure and texture continuity. This combination enables the Gaussian representation to learn anatomical details of various structures and corresponding textures from sparse supervision while significantly reducing the computational cost associated with dense voxel processing. The learned representation supports slice-based rendering methods such as shear–warp volume rendering, enabling efficient visualization of multimodal medical datasets including MRI and Cryosection volumes while preserving anatomical structures. Using sparse supervision, our method achieves up to 43.86 FPS rendering with a compression ratio of 11.31:1.
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -343,7 +343,7 @@
     </div>
 
     <!-- Ablation study - image table -->
-    <h2 class="title is-4 mt-6">Ablation Study</h2>
+    <h2 class="title is-4 mt-6">Ablation study</h2>
     <p class="content has-text-centered mb-4">Visual comparisons of the ablation study on cross sections and rendered views from shear-warp renderer.</p>
     <div class="table-container">
       <table class="table is-bordered is-narrow comparison-table">
@@ -481,6 +481,117 @@
             <td class="has-text-centered"><strong>0.000021</strong></td>
             <td class="has-text-centered"><strong>0.995</strong></td>
             <td class="has-text-centered"><strong>0.993</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Organ-wise rendered views -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">Rendered vews various datasets</h2>
+    <p class="content has-text-centered mb-4">
+      Visual results of rendered views of different organs from Cryosection, BraTS MRI, and Mouse neonatal MRI datasets.
+    </p>
+    <div class="table-container">
+      <table class="table is-bordered is-narrow comparison-table">
+        <tbody>
+          <tr>
+            <td class="row-label"><span class="rotated-label">GT</span></td>
+            <td><img src="./static/Images/organ_analysis/Brain/gt/principal_views_alpha_0_80/view_x.png" alt="Brain GT" /></td>
+            <td><img src="./static/Images/organ_analysis/Liver/gt/principal_views_alpha_0_80/view_x.png" alt="Liver GT" /></td>
+            <td><img src="./static/Images/organ_analysis/Heart/gt/principal_views_alpha_0_80/view_x.png" alt="Heart GT" /></td>
+            <td><img src="./static/Images/organ_analysis/Lung/gt/principal_views_alpha_0_80/view_x.png" alt="Lung GT" /></td>
+            <td><img src="./static/Images/Comparisons/moreDatasets/Brats/principal_views_gt/view_y.png" alt="BraTS GT" /></td>
+            <td><img src="./static/Images/Comparisons/moreDatasets/MouseNeoResults/view_y (1)_256.png" alt="Mouse Neonatal GT" /></td>
+          </tr>
+          <tr>
+            <td class="row-label"><span class="rotated-label">Pred.</span></td>
+            <td><img src="./static/Images/organ_analysis/Brain/principal_views_alpha_0_80/view_x.png" alt="Brain Pred" /></td>
+            <td><img src="./static/Images/organ_analysis/Liver/principal_views_alpha_0_80/view_x.png" alt="Liver Pred" /></td>
+            <td><img src="./static/Images/organ_analysis/Heart/principal_views_alpha_0_80/view_x.png" alt="Heart Pred" /></td>
+            <td><img src="./static/Images/organ_analysis/Lung/principal_views_alpha_0_80/view_x.png" alt="Lung Pred" /></td>
+            <td><img src="./static/Images/Comparisons/moreDatasets/Brats/principal_views_predicted/view_y.png" alt="BraTS Pred" /></td>
+            <td><img src="./static/Images/Comparisons/moreDatasets/MouseNeoResults/view_y (2)_256.png" alt="Mouse Neonatal Pred" /></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th></th>
+            <th class="has-text-centered"><small>Brain<br>Cryo</small></th>
+            <th class="has-text-centered"><small>Liver<br>Cryo</small></th>
+            <th class="has-text-centered"><small>Heart<br>Cryo</small></th>
+            <th class="has-text-centered"><small>Lungs<br>Cryo</small></th>
+            <th class="has-text-centered"><small>BraTS<br>MRI</small></th>
+            <th class="has-text-centered"><small>Mouse<br>MRI</small></th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Organ-wise quantitative analysis -->
+    <div class="table-container mt-5 has-text-centered">
+      <table class="table is-bordered is-narrow quantitative-table">
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th class="has-text-centered">PSNR</th>
+            <th class="has-text-centered">SSIM</th>
+            <th class="has-text-centered">MS-SSIM</th>
+            <th class="has-text-centered">FPS</th>
+            <th class="has-text-centered">Compression ratio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Brain (Cryo)</td>
+            <td class="has-text-centered">32.10</td>
+            <td class="has-text-centered">0.943</td>
+            <td class="has-text-centered">0.991</td>
+            <td class="has-text-centered">45.5</td>
+            <td class="has-text-centered">9.34:1</td>
+          </tr>
+          <tr>
+            <td>Liver (Cryo)</td>
+            <td class="has-text-centered">43.16</td>
+            <td class="has-text-centered">0.981</td>
+            <td class="has-text-centered">0.996</td>
+            <td class="has-text-centered">50.18</td>
+            <td class="has-text-centered">9.45:1</td>
+          </tr>
+          <tr>
+            <td>Heart (Cryo)</td>
+            <td class="has-text-centered">32.19</td>
+            <td class="has-text-centered">0.958</td>
+            <td class="has-text-centered">0.990</td>
+            <td class="has-text-centered">48.57</td>
+            <td class="has-text-centered">10.09:1</td>
+          </tr>
+          <tr>
+            <td>Lungs (Cryo)</td>
+            <td class="has-text-centered">34.93</td>
+            <td class="has-text-centered">0.952</td>
+            <td class="has-text-centered">0.989</td>
+            <td class="has-text-centered">39.77</td>
+            <td class="has-text-centered">4.73:1</td>
+          </tr>
+          <tr>
+            <td>BraTS (MRI)</td>
+            <td class="has-text-centered">40.88</td>
+            <td class="has-text-centered">0.988</td>
+            <td class="has-text-centered">0.998</td>
+            <td class="has-text-centered">44.82</td>
+            <td class="has-text-centered">11.31:1</td>
+          </tr>
+          <tr>
+            <td>Mouse Neonatal (MRI)</td>
+            <td class="has-text-centered">33.48</td>
+            <td class="has-text-centered">0.956</td>
+            <td class="has-text-centered">0.987</td>
+            <td class="has-text-centered">46.56</td>
+            <td class="has-text-centered">9.94:1</td>
           </tr>
         </tbody>
       </table>
