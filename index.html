@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Gaussian Volumetric Representation for Efficient Shear–Warp Visualization">
+  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gaussian Volumetric Representation for Efficient Shear–Warp Visualization</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Gaussian Volumetric Representation for Efficient Shear–Warp Visualization</h1>
+          <!-- <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
+            </span>
+          </div> -->
+
+          <!-- <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>University of Washington,</span>
+            <span class="author-block"><sup>2</sup>Google Research</span>
+          </div> -->
+
+          <div class="column has-text-centered">
+            <!-- Paper, arXiv, Video, Code, Data links
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-youtube"></i></span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/google/nerfies"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="far fa-images"></i></span>
+                  <span>Data</span>
+                </a>
+              </span>
+            </div>
+            -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Abstract -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Medical image visualization requires volumetric rendering algorithms that preserve anatomical fidelity while maintaining high rendering speeds. To address the high computational cost of large volumetric datasets, we propose a Gaussian-based volumetric representation for efficient visualization of dense medical volumes without compromising structural and radiometric details.
+          </p>
+          <p>
+            The proposed representation is optimized using Monte Carlo volumetric estimation, which enables training on a highly sparse subset of voxels while maintaining consistency with the dense volumetric objective. In addition, we introduce a curriculum learning strategy that progressively incorporates structured slice-based sampling during training. Sparse voxel samples provide an early global coverage of the volume, while slice samples capture spatially correlated regions that aid geometric structure and texture continuity. This combination enables the Gaussian representation to learn anatomical details of various structures and corresponding textures from sparse supervision while significantly reducing the computational cost associated with dense voxel processing. The learned representation supports slice-based rendering methods such as shear–warp volume rendering, enabling efficient visualization of multimodal medical datasets including MRI and Cryosection volumes while preserving anatomical structures. Using sparse supervision, our method achieves up to 43.86 FPS rendering with a compression ratio of 11.31:1.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Architecture diagram -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width has-text-centered">
+        <h2 class="title is-4">Architecture</h2>
+        <figure class="image">
+          <img src="./static/SW_GaussFinal.drawio.png" alt="Architecture diagram" class="architecture-diagram" style="height: auto;" />
+        </figure>
+        <p class="is-size-7 mt-2">
+          <a href="./static/SW_GaussFinal.drawio.pdf" target="_blank" rel="noopener">View full architecture diagram (PDF)</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Gaussian Prediction videos -->
+<section class="section">
+  <div class="container is-fluid">
+    <h2 class="title is-4 has-text-centered">Gaussian Representation for Shear–Warp Visualization</h2>
+    <div class="columns">
+      <div class="column has-text-centered">
+        <p class="is-size-6 has-text-weight-medium mb-2">Full Head</p>
+        <video controls muted loop playsinline style="width: 100%; border-radius: 8px;">
+          <source src="./static/videos/Gauss_Pred/full%20head.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="column has-text-centered">
+        <p class="is-size-6 has-text-weight-medium mb-2">Brain</p>
+        <video controls muted loop playsinline style="width: 100%; border-radius: 8px;">
+          <source src="./static/videos/Gauss_Pred/Brain.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="column has-text-centered">
+        <p class="is-size-6 has-text-weight-medium mb-2">Liver</p>
+        <video controls muted loop playsinline style="width: 100%; border-radius: 8px;">
+          <source src="./static/videos/Gauss_Pred/Liver.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="column has-text-centered">
+        <p class="is-size-6 has-text-weight-medium mb-2">Heart</p>
+        <video controls muted loop playsinline style="width: 100%; border-radius: 8px;">
+          <source src="./static/videos/Gauss_Pred/Heart.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="column has-text-centered">
+        <p class="is-size-6 has-text-weight-medium mb-2">Lung</p>
+        <video controls muted loop playsinline style="width: 100%; border-radius: 8px;">
+          <source src="./static/videos/Gauss_Pred/Lungs.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sparse representations - Comparisons table -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">Sparse representations</h2>
+    <p class="content has-text-centered mb-4">Comparisons with learning based volumetric representation methods.</p>
+    <div class="table-container">
+      <table class="table is-bordered is-narrow comparison-table">
+        <tbody>
+          <tr>
+            <td class="row-label"><span class="rotated-label">Cross<br>section</span></td>
+            <td><img src="./static/Images/Comparisons/MLP/slice_sagittal_y128.png" alt="MLP sagittal" /></td>
+            <td><img src="./static/Images/Comparisons/mlp_slices/slice_sagittal_y128.png" alt="Slice MLP sagittal" /></td>
+            <td><img src="./static/Images/Comparisons/outputs_reconstructed_vit/slice_sagittal_x128_256.png" alt="Transformer sagittal" /></td>
+            <td><img src="./static/Images/Comparisons/Unet/slices/slice_sagittal_y128.png" alt="UNet sagittal" /></td>
+            <td><img src="./static/Images/Comparisons/ours/slice_sagittal_y128.png" alt="Ours sagittal" /></td>
+            <td><img src="./static/Images/Comparisons/gt/gt_slice_sagittal_y128.png" alt="GT sagittal" /></td>
+          </tr>
+          <tr>
+            <td class="row-label"><span class="rotated-label">Cross<br>section</span></td>
+            <td><img src="./static/Images/Comparisons/MLP/slice_coronal_x128.png" alt="MLP coronal" /></td>
+            <td><img src="./static/Images/Comparisons/mlp_slices/slice_coronal_x128.png" alt="Slice MLP coronal" /></td>
+            <td><img src="./static/Images/Comparisons/outputs_reconstructed_vit/slice_sagittal_y128_256.png" alt="Transformer coronal" /></td>
+            <td><img src="./static/Images/Comparisons/Unet/slices/slice_coronal_x128.png" alt="UNet coronal" /></td>
+            <td><img src="./static/Images/Comparisons/ours/slice_coronal_x128.png" alt="Ours coronal" /></td>
+            <td><img src="./static/Images/Comparisons/gt/gt_slice_coronal_x128.png" alt="GT coronal" /></td>
+          </tr>
+          <tr>
+            <td class="row-label"><span class="rotated-label">Rendered<br>view</span></td>
+            <td><img src="./static/Images/Comparisons/MLP/view_principal_x.png" alt="MLP rendered" /></td>
+            <td><img src="./static/Images/Comparisons/mlp_slices/mlp_0.8/view_principal_x.png" alt="Slice MLP rendered" /></td>
+            <td><img src="./static/Images/Comparisons/outputs_reconstructed_vit/view_principal_x_256.png" alt="Transformer rendered" /></td>
+            <td><img src="./static/Images/Comparisons/Unet/principal_views_alpha0.8/view_x.png" alt="UNet rendered" /></td>
+            <td><img src="./static/Images/ablations/MCE_P2/principal_views_alpha0.8/view_x.png" alt="Ours rendered" /></td>
+            <td><img src="./static/Images/ablations/gt/principal_views_alpha0.8/view_x.png" alt="GT rendered" /></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th></th>
+            <th class="has-text-centered">Voxel MLP</th>
+            <th class="has-text-centered">Slice MLP</th>
+            <th class="has-text-centered">Trans former</th>
+            <th class="has-text-centered">UNet</th>
+            <th class="has-text-centered">Ours</th>
+            <th class="has-text-centered">GT</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Quantitative comparison - merged Reconstruction & Rendering Quality -->
+    <div class="table-container mt-5 has-text-centered">
+      <table class="table is-bordered is-narrow quantitative-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th colspan="4" class="has-text-centered">Reconstruction Quality</th>
+            <th colspan="4" class="has-text-centered">Rendering Quality</th>
+          </tr>
+          <tr>
+            <th>Method</th>
+            <th class="has-text-centered">PSNR ↑</th>
+            <th class="has-text-centered">MSE ↓</th>
+            <th class="has-text-centered">SSIM ↑</th>
+            <th class="has-text-centered">MS-SSIM ↑</th>
+            <th class="has-text-centered">PSNR ↑</th>
+            <th class="has-text-centered">MSE ↓</th>
+            <th class="has-text-centered">SSIM ↑</th>
+            <th class="has-text-centered">MS-SSIM ↑</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Voxel MLP</td>
+            <td class="has-text-centered">23.63</td>
+            <td class="has-text-centered">0.000434</td>
+            <td class="has-text-centered">0.772</td>
+            <td class="has-text-centered">0.871</td>
+            <td class="has-text-centered">46.610</td>
+            <td class="has-text-centered">0.000176</td>
+            <td class="has-text-centered">0.968</td>
+            <td class="has-text-centered">0.980</td>
+          </tr>
+          <tr>
+            <td>Slice MLP</td>
+            <td class="has-text-centered">30.02</td>
+            <td class="has-text-centered">0.000995</td>
+            <td class="has-text-centered">0.920</td>
+            <td class="has-text-centered">0.969</td>
+            <td class="has-text-centered">36.32</td>
+            <td class="has-text-centered">0.000248</td>
+            <td class="has-text-centered">0.973</td>
+            <td class="has-text-centered">0.983</td>
+          </tr>
+          <tr>
+            <td>Transformers</td>
+            <td class="has-text-centered">9.60</td>
+            <td class="has-text-centered">0.052000</td>
+            <td class="has-text-centered">0.631</td>
+            <td class="has-text-centered">0.404</td>
+            <td class="has-text-centered">29.73</td>
+            <td class="has-text-centered">0.014900</td>
+            <td class="has-text-centered">0.873</td>
+            <td class="has-text-centered">0.481</td>
+          </tr>
+          <tr>
+            <td>UNet</td>
+            <td class="has-text-centered">26.70</td>
+            <td class="has-text-centered">0.002130</td>
+            <td class="has-text-centered">0.798</td>
+            <td class="has-text-centered">0.943</td>
+            <td class="has-text-centered">42.10</td>
+            <td class="has-text-centered">0.00052</td>
+            <td class="has-text-centered">0.982</td>
+            <td class="has-text-centered">0.985</td>
+          </tr>
+          <tr>
+            <td><strong>Ours</strong></td>
+            <td class="has-text-centered"><strong>34.81</strong></td>
+            <td class="has-text-centered"><strong>0.000398</strong></td>
+            <td class="has-text-centered"><strong>0.956</strong></td>
+            <td class="has-text-centered"><strong>0.993</strong></td>
+            <td class="has-text-centered"><strong>54.87</strong></td>
+            <td class="has-text-centered"><strong>0.000021</strong></td>
+            <td class="has-text-centered"><strong>0.995</strong></td>
+            <td class="has-text-centered"><strong>0.993</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Ablation study - image table -->
+    <h2 class="title is-4 mt-6">Ablation Study</h2>
+    <p class="content has-text-centered mb-4">Visual comparisons of the ablation study on cross sections and rendered views from shear-warp renderer.</p>
+    <div class="table-container">
+      <table class="table is-bordered is-narrow comparison-table">
+        <tbody>
+          <tr>
+            <td class="row-label"><span class="rotated-label">Cross<br>section</span></td>
+            <td><img src="./static/Images/ablations/Sweep_P1/slices/pred_axial_d0255.png" alt="A₁" /></td>
+            <td><img src="./static/Images/ablations/Sweep_P2/slices/pred_axial_d0255.png" alt="A₂" /></td>
+            <td><img src="./static/Images/ablations/Sweep_P2_reverse/slices/pred_axial_d0255.png" alt="A₃" /></td>
+            <td><img src="./static/Images/ablations/MCE_P1/slices/pred_axial_d0255.png" alt="A₄" /></td>
+            <td><img src="./static/Images/ablations/MCE_P1/slices/pred_axial_d0255.png" alt="A₅" /></td>
+            <td><img src="./static/Images/ablations/MCE_P2/slices/pred_axial_d0255.png" alt="Ours" /></td>
+            <td><img src="./static/Images/ablations/MCE_P1/slices/gt_axial_d0255.png" alt="GT" /></td>
+          </tr>
+          <tr>
+            <td class="row-label"><span class="rotated-label">Rendered<br>view</span></td>
+            <td><img src="./static/Images/ablations/Sweep_P1/principal_views_alpha0.8/view_x.png" alt="A₁" /></td>
+            <td><img src="./static/Images/ablations/Sweep_P2/principal_views_alpha0.8/view_x.png" alt="A₂" /></td>
+            <td><img src="./static/Images/ablations/Sweep_P2_reverse/principal_views_alpha0.8/view_x.png" alt="A₃" /></td>
+            <td><img src="./static/Images/ablations/slice_only/predicted_principal_views/view_x.png" alt="A₄" /></td>
+            <td><img src="./static/Images/ablations/MCE_P1/principal_views_alpha0.8/view_x.png" alt="A₅" /></td>
+            <td><img src="./static/Images/ablations/MCE_P2/principal_views_alpha0.8/view_x.png" alt="Ours" /></td>
+            <td><img src="./static/Images/ablations/gt/principal_views_alpha0.8/view_x.png" alt="GT" /></td>
+          </tr>
+          <tr>
+            <td class="row-label"><span class="rotated-label">Rendered<br>view</span></td>
+            <td><img src="./static/Images/ablations/Sweep_P1/principal_views_alpha0.8/view_z.png" alt="A₁" /></td>
+            <td><img src="./static/Images/ablations/Sweep_P2/principal_views_alpha0.8/view_z.png" alt="A₂" /></td>
+            <td><img src="./static/Images/ablations/Sweep_P2_reverse/principal_views_alpha0.8/view_z.png" alt="A₃" /></td>
+            <td><img src="./static/Images/ablations/slice_only/predicted_principal_views/view_z.png" alt="A₄" /></td>
+            <td><img src="./static/Images/ablations/MCE_P1/principal_views_alpha0.8/view_z.png" alt="A₅" /></td>
+            <td><img src="./static/Images/ablations/MCE_P2/principal_views_alpha0.8/view_z.png" alt="Ours" /></td>
+            <td><img src="./static/Images/ablations/gt/principal_views_alpha0.8/view_z.png" alt="GT" /></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th></th>
+            <th class="has-text-centered"><strong>A₁</strong></th>
+            <th class="has-text-centered"><strong>A₂</strong></th>
+            <th class="has-text-centered"><strong>A₃</strong></th>
+            <th class="has-text-centered"><strong>A₄</strong></th>
+            <th class="has-text-centered"><strong>A₅</strong></th>
+            <th class="has-text-centered"><strong>Ours</strong></th>
+            <th class="has-text-centered"><strong>GT</strong></th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Ablation quantitative - merged Reconstruction & Rendered -->
+    <div class="table-container mt-5 has-text-centered">
+      <table class="table is-bordered is-narrow quantitative-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th colspan="4" class="has-text-centered">Reconstruction Quality</th>
+            <th colspan="4" class="has-text-centered">Rendering Quality</th>
+          </tr>
+          <tr>
+            <th>Method</th>
+            <th class="has-text-centered">PSNR ↑</th>
+            <th class="has-text-centered">MSE ↓</th>
+            <th class="has-text-centered">SSIM ↑</th>
+            <th class="has-text-centered">MS-SSIM ↑</th>
+            <th class="has-text-centered">PSNR ↑</th>
+            <th class="has-text-centered">MSE ↓</th>
+            <th class="has-text-centered">SSIM ↑</th>
+            <th class="has-text-centered">MS-SSIM ↑</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>A₁</strong></td>
+            <td class="has-text-centered">33.46</td>
+            <td class="has-text-centered">0.000451</td>
+            <td class="has-text-centered">0.956</td>
+            <td class="has-text-centered">0.990</td>
+            <td class="has-text-centered">50.7</td>
+            <td class="has-text-centered">0.0002400</td>
+            <td class="has-text-centered">0.962</td>
+            <td class="has-text-centered">0.964</td>
+          </tr>
+          <tr>
+            <td><strong>A₂</strong></td>
+            <td class="has-text-centered">12.16</td>
+            <td class="has-text-centered">0.0054300</td>
+            <td class="has-text-centered">0.060</td>
+            <td class="has-text-centered">0.214</td>
+            <td class="has-text-centered">27.10</td>
+            <td class="has-text-centered">0.025800</td>
+            <td class="has-text-centered">0.826</td>
+            <td class="has-text-centered">0.789</td>
+          </tr>
+          <tr>
+            <td><strong>A₃</strong></td>
+            <td class="has-text-centered">22.64</td>
+            <td class="has-text-centered">0.005439</td>
+            <td class="has-text-centered">0.727</td>
+            <td class="has-text-centered">0.850</td>
+            <td class="has-text-centered">40.59</td>
+            <td class="has-text-centered">0.000782</td>
+            <td class="has-text-centered">0.932</td>
+            <td class="has-text-centered">0.937</td>
+          </tr>
+          <tr>
+            <td><strong>A₄</strong></td>
+            <td class="has-text-centered">14.350</td>
+            <td class="has-text-centered">0.0366</td>
+            <td class="has-text-centered">0.646</td>
+            <td class="has-text-centered">0.512</td>
+            <td class="has-text-centered">33.18</td>
+            <td class="has-text-centered">0.005020</td>
+            <td class="has-text-centered">0.878</td>
+            <td class="has-text-centered">0.887</td>
+          </tr>
+          <tr>
+            <td><strong>A₅</strong></td>
+            <td class="has-text-centered">32.40</td>
+            <td class="has-text-centered">0.000576</td>
+            <td class="has-text-centered">0.943</td>
+            <td class="has-text-centered">0.988</td>
+            <td class="has-text-centered">52.34</td>
+            <td class="has-text-centered">0.000161</td>
+            <td class="has-text-centered">0.968</td>
+            <td class="has-text-centered">0.991</td>
+          </tr>
+          <tr>
+            <td><strong>Ours</strong></td>
+            <td class="has-text-centered"><strong>34.81</strong></td>
+            <td class="has-text-centered"><strong>0.000398</strong></td>
+            <td class="has-text-centered"><strong>0.956</strong></td>
+            <td class="has-text-centered"><strong>0.993</strong></td>
+            <td class="has-text-centered"><strong>54.870</strong></td>
+            <td class="has-text-centered"><strong>0.000021</strong></td>
+            <td class="has-text-centered"><strong>0.995</strong></td>
+            <td class="has-text-centered"><strong>0.993</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- BibTeX section
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+}</code></pre>
+  </div>
+</section>
+-->
+
+<!-- Footer
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+-->
+
+</body>
+</html>
